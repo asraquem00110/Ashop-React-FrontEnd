@@ -1,0 +1,39 @@
+span {
+    font-weight: bold;
+    /* font-size: 1vw; */
+}
+
+.linknav {
+    color: dimgray !important;
+    padding: 10px 12px;
+    border-radius: 50%;
+    background: #F2F2F2;
+    height: 100%;
+}
+
+ul {
+    list-style-type: none;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+ul li {
+    display: inline-block;
+    margin: 0px 10px;
+}
+
+.categorylink {
+    cursor: pointer;
+}
+
+.categorylink:hover {
+    color: #097EEB
+}
+   
+
+@media (max-width: 600px){
+    span {
+        font-size: 8pt;
+    }
+}
