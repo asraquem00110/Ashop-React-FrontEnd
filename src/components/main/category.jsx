@@ -3,7 +3,7 @@ import { Container, Row, Col , Form ,InputGroup, FormControl} from 'react-bootst
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import  * as FA from '@fortawesome/free-solid-svg-icons'
 import {useSelector,useDispatch} from 'react-redux'
-import {getCategories} from '../../actions/product'
+import {getCategories,getProducts,getByCategory,getBySearch} from '../../actions/product'
 
 import {withRouter} from 'react-router-dom'
 
@@ -13,12 +13,24 @@ const Category = (props)=>{
     const dispatch = useDispatch()
     const categories = useSelector(state => state.product.categories)
 
-
+    const [typingTimer,setTypingTimer] = useState(null)
     const [search ,setSearch ] = useState("")
 
     useEffect(()=>{
         dispatch(getCategories())
     },[])
+
+    useEffect(()=>{
+        clearTimeout(typingTimer)
+        if(search.length > 0){
+            setTypingTimer(setTimeout(()=>{
+               dispatch(getBySearch(search))
+            },500)
+            )
+        }else{
+            dispatch(getProducts())
+        }
+    },[search])
     return (
         <div style={
             {
@@ -32,8 +44,8 @@ const Category = (props)=>{
          <Row>
          <Col md={9}>
             <ul>
-                    <li><span class="categorylink">All Categories</span></li>
-                     {categories.map((category)=><li><span class="categorylink">{category.category}</span></li>)}
+                    <li onClick={()=>dispatch(getProducts())}><span className="categorylink">All Categories</span></li>
+                     {categories.map((category,index)=><li key={index} onClick={()=>dispatch(getByCategory(category.id))}><span className="categorylink">{category.category}</span></li>)}
             </ul>
           </Col>
             <Col md={3}>

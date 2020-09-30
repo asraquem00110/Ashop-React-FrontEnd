@@ -2,7 +2,11 @@
 import {Actions} from '../actions/product'
 
 const initialState = {
-    products: {},
+    products: {
+        products: {
+            data: [],
+        }
+    },
     categories: [],
 }
 

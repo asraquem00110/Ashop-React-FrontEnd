@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { Container, Row, Col , Form ,InputGroup, FormControl} from 'react-bootstrap'
 import './headernav.css'
@@ -6,6 +6,9 @@ import logo from '../logo.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import  * as FA from '@fortawesome/free-solid-svg-icons'
 import {withRouter} from 'react-router-dom'
+import {useSelector,useDispatch} from 'react-redux'
+import SignInModal from './sigin'
+import RegisterModal from './register'
 
 
 const HeaderNav = (props)=>{
@@ -15,6 +18,12 @@ const HeaderNav = (props)=>{
         width: '50px',
         padding: 0,
     }
+
+    const user = useSelector(state=>state.user.loginfo)
+
+    const [showSignin, setShowSignin] = useState(false)
+    const [showRegister, setShowRegister] = useState(false)
+
     return(
         <div>
            <div style={
@@ -33,17 +42,20 @@ const HeaderNav = (props)=>{
                                    
                        </Col>
                        <Col md={6}>
-                           <ul class="float-right">
+                           <ul className="float-right">
                                 <li>
-                                <span class="float-right text-primary linknav"><FontAwesomeIcon icon={FA.faCartPlus} /></span>
+                                <span className="float-right text-primary linknav"><FontAwesomeIcon icon={FA.faCartPlus} /></span>
                                 </li>
                                 <li>
-                                <span class="float-right text-primary linknav"><FontAwesomeIcon icon={FA.faUser} /></span>
+                                <span className="float-right text-primary linknav"><FontAwesomeIcon icon={FA.faUser} /></span>
                                 </li>
                                 <li>
                                    
                                         <span>Welcome!</span><br/>
-                                        <small style={{fontSize: '10pt',padding: 0,margin: 0}}><a href="javascript:void(0)">Sign in</a> | <a href="javascript:void(0)">Register</a></small>
+                                        {
+                                            user === "guest" ? <small style={{fontSize: '10pt',padding: 0,margin: 0}}><a href="javascript:void(0)" onClick={()=>setShowSignin(true)}>Sign in</a> | <a href="javascript:void(0)" onClick={()=>setShowRegister(true)}>Register</a></small> : JSON.stringify(user)
+                                        }
+                                        
                                    
                                 </li>
                            </ul>
@@ -54,6 +66,9 @@ const HeaderNav = (props)=>{
              
 
            </div>
+
+           <SignInModal show={showSignin} closemodal={(status)=>setShowSignin(status)}/>
+           <RegisterModal show={showRegister} closemodal={(status)=>setShowRegister(status)}/>
 
     
         </div>
