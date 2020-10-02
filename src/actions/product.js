@@ -8,8 +8,9 @@ export const Actions = {
     GET_BYCATEGORY: 'GET_BYCATEGORY',
 }
 
-export const getBySearch = (search) => async dispatch =>{
+export const getBySearch = (search) => async (dispatch,getState) =>{
     try {
+        console.log(getState())
         let data = await axios.get(`${config.backendapi}getBySearch/${search}`)
         dispatch({
             type: Actions.GET_PRODUCTS,
@@ -21,7 +22,7 @@ export const getBySearch = (search) => async dispatch =>{
 }
 
 
-export const getCategories = () => async dispatch =>{
+export const getCategories = () => async (dispatch,getState) =>{
     try {
         let data = await axios.get(`${config.backendapi}getCategories`)
         dispatch({
@@ -33,7 +34,7 @@ export const getCategories = () => async dispatch =>{
     }
 }
 
-export const getByCategory = (categoryId) => async dispatch =>{
+export const getByCategory = (categoryId) => async (dispatch,getState) =>{
     try {
         let data = await axios.get(`${config.backendapi}getByCategory/${categoryId}`)
         dispatch({
@@ -45,7 +46,7 @@ export const getByCategory = (categoryId) => async dispatch =>{
     }  
 }
 
-export const getPaginatedData = (url) => async dispatch => {
+export const getPaginatedData = (url) => async (dispatch,getState) => {
     try {
         let data = await axios.get(url)
         dispatch({
@@ -57,7 +58,7 @@ export const getPaginatedData = (url) => async dispatch => {
     }
 }
 
-export const getProducts = () => async dispatch =>{
+export const getProducts = () => async (dispatch,getState) =>{
     try {
         let data = await axios.get(`${config.backendapi}getProducts`)
         dispatch({

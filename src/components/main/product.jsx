@@ -1,5 +1,6 @@
 import React , {useEffect} from 'react'
 import {getProducts,getPaginatedData} from '../../actions/product'
+import {addToWish,addToCart} from '../../actions/cart'
 import {useSelector,useDispatch} from 'react-redux'
 import { Col , Row , Button} from 'react-bootstrap'
 import {imgUrl} from '../../config'
@@ -45,8 +46,8 @@ const Product = ()=>{
                                             <span style={{fontWeight: 'normal',fontSize: '10pt'}}>{product.description}</span>
                                             
                                             <div style={{marginTop: '15px'}}>
-                                                 <Button style={{marginRight: '10px', background: '#EFEFEF', color: '#000000', border: 'none'}}><FontAwesomeIcon icon={FA.faHeart}></FontAwesomeIcon></Button>
-                                                 <Button style={{marginRight: '10px', background: '#EFEFEF', color: '#000000', border: 'none'}}><FontAwesomeIcon icon={FA.faCartPlus}></FontAwesomeIcon></Button>
+                                                 <Button onClick={()=>dispatch(addToWish())} style={{marginRight: '10px', background: '#EFEFEF', color: '#000000', border: 'none'}}><FontAwesomeIcon icon={FA.faHeart}></FontAwesomeIcon></Button>
+                                                 <Button onClick={()=>dispatch(addToCart())} style={{marginRight: '10px', background: '#EFEFEF', color: '#000000', border: 'none'}}><FontAwesomeIcon icon={FA.faCartPlus}></FontAwesomeIcon></Button>
                                             </div>
                                           
                                     </div>

@@ -10,6 +10,7 @@ import { Button } from 'react-bootstrap';
 
 import HeaderNav from './components/headernav'
 import MainBody from './components/main/mainbody'
+import NotFoundComponent from './components/404'
 
 import {BrowserRouter as Router, Switch , Route} from 'react-router-dom'
 
@@ -26,6 +27,8 @@ const App = ()=> {
                   return <MainBody {...props} name={`Simple Online Shop Using ReactJs`} />
                 }}>    
               </Route>
+              <Route path="*" component={NotFoundComponent}></Route>
+
           </Switch>
         
       </div>

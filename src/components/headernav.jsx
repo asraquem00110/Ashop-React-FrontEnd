@@ -1,11 +1,10 @@
 import React, { useState } from 'react'
-
 import { Container, Row, Col , Form ,InputGroup, FormControl} from 'react-bootstrap'
 import './headernav.css'
 import logo from '../logo.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import  * as FA from '@fortawesome/free-solid-svg-icons'
-import {withRouter} from 'react-router-dom'
+import {Link, withRouter} from 'react-router-dom'
 import {useSelector,useDispatch} from 'react-redux'
 import SignInModal from './sigin'
 import RegisterModal from './register'
@@ -38,7 +37,7 @@ const HeaderNav = (props)=>{
                    <Row>
                        <Col md={6}>
   
-                            <span style={{fontSize: '22pt',fontFamily: `'Lobster', cursive`}}><img src={logo} style={imgstyle}></img>Simple  <span style={{color: '#097EEB'}}>Online Shop</span></span>
+                            <Link style={{textDecoration: 'none'}} to="/"><span style={{fontSize: '22pt',fontFamily: `'Lobster', cursive`, color: '#000000'}}><img src={logo} style={imgstyle}></img>Simple  <span style={{color: '#097EEB'}}>Online Shop</span></span></Link>
                                    
                        </Col>
                        <Col md={6}>
