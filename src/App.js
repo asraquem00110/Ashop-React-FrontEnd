@@ -11,10 +11,17 @@ import { Button } from 'react-bootstrap';
 import HeaderNav from './components/headernav'
 import MainBody from './components/main/mainbody'
 import NotFoundComponent from './components/404'
-
+import {useSelector} from 'react-redux'
 import {BrowserRouter as Router, Switch , Route} from 'react-router-dom'
+import axios from 'axios'
 
 const App = ()=> {
+
+  const temptoken = useSelector(state=>state.user.token)
+  axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
+  axios.defaults.headers.common["Accept"] = 'application/json'
+  axios.defaults.headers.common["Authorization"] = `Bearer ${temptoken}`
+ 
   return (
     <Router>
       <div className="App">

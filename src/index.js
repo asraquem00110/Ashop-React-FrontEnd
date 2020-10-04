@@ -19,8 +19,6 @@ const store = createStore(
   initalState, composeWithDevTools(applyMiddleware(...middleware)
 ))
 
-
-
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>

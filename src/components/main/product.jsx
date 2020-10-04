@@ -38,7 +38,7 @@ const Product = ()=>{
                 {
                     product.products.data.map((product,index)=>{
                         return <>
-                             <Col key={index} md={3} sm={6} xs={12} style={productdiv}>
+                             <Col key={index} lg={3} md={4} sm={6} xs={12} style={productdiv}>
                                     <div style={{height: '100%',width: '100%', border: '0.5px solid silver',padding: '10px'}}>
                                             <img style={productimg} src={`${imgUrl}${product.img}`} alt="Product"/>
                                             
@@ -46,8 +46,8 @@ const Product = ()=>{
                                             <span style={{fontWeight: 'normal',fontSize: '10pt'}}>{product.description}</span>
                                             
                                             <div style={{marginTop: '15px'}}>
-                                                 <Button onClick={()=>dispatch(addToWish())} style={{marginRight: '10px', background: '#EFEFEF', color: '#000000', border: 'none'}}><FontAwesomeIcon icon={FA.faHeart}></FontAwesomeIcon></Button>
-                                                 <Button onClick={()=>dispatch(addToCart())} style={{marginRight: '10px', background: '#EFEFEF', color: '#000000', border: 'none'}}><FontAwesomeIcon icon={FA.faCartPlus}></FontAwesomeIcon></Button>
+                                                 <Button onClick={()=>dispatch(addToWish(product))} style={{marginRight: '10px', background: '#EFEFEF', color: '#000000', border: 'none'}}><FontAwesomeIcon icon={FA.faHeart}></FontAwesomeIcon></Button>
+                                                 <Button onClick={()=>dispatch(addToCart(product))} style={{marginRight: '10px', background: '#EFEFEF', color: '#000000', border: 'none'}}><FontAwesomeIcon icon={FA.faCartPlus}></FontAwesomeIcon></Button>
                                             </div>
                                           
                                     </div>
