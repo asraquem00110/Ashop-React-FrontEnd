@@ -1,6 +1,4 @@
 import React from 'react'
-
-import '../../assets/css/index.css'
 import Banner from './banner'
 import Product from './product'
 import Category from './category'

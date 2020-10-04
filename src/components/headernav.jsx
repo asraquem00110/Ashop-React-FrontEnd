@@ -33,6 +33,11 @@ const HeaderNav = (props)=>{
         }
     }
 
+    const showcartbadge = (user)=>{
+        if(user !== "guest") return <> <span style={{padding: '3px 8px',background: 'green',color: 'white', borderRadius: '50%', position: 'absolute', bottom: '-5px'}}>2</span> </>
+        return
+    }
+
     return(
         <div>
            <div style={
@@ -53,16 +58,26 @@ const HeaderNav = (props)=>{
                        <Col md={6}>
                            <ul className="float-right">
                                 <li>
-                                <span className="float-right text-primary linknav"><FontAwesomeIcon icon={FA.faCartPlus} /></span>
+                                <span style={{cursor: 'pointer',position: 'relative'}} onClick={()=> user !== "guest" ? props.history.push("/mycart") : props.history.push("/")} className="float-right text-primary linknav">
+                                    <FontAwesomeIcon icon={FA.faCartPlus} />
+                                    {
+                                      showcartbadge(user) 
+                                    }
+                                   
+                                </span>
                                 </li>
                                 <li>
-                                <span className="float-right text-primary linknav"><FontAwesomeIcon icon={FA.faUser} /></span>
+                                <span style={{cursor: 'pointer'}} onClick={()=> user !== "guest" ? props.history.push("/profile") : props.history.push("/")} className="float-right text-primary linknav">
+                                    <FontAwesomeIcon icon={FA.faUser} />
+                                </span>
                                 </li>
                                 <li>
                                    
                                         <span>Welcome!</span><br/>
                                         {
-                                            user === "guest" ? <small style={{fontSize: '10pt',padding: 0,margin: 0}}><a href="javascript:void(0)" onClick={()=>setShowSignin(true)}>Sign in</a> | <a href="javascript:void(0)" onClick={()=>setShowRegister(true)}>Register</a></small> : <small>{user} | <a href="javascript:void(0)" onClick={()=>logout()}>Logout</a></small>
+                                            user === "guest" 
+                                            ? <small style={{fontSize: '10pt',padding: 0,margin: 0}}><a href="javascript:void(0)" onClick={()=>setShowSignin(true)}>Sign in</a> | <a href="javascript:void(0)" onClick={()=>setShowRegister(true)}>Register</a></small> 
+                                            : <small>{user} | <a href="javascript:void(0)" onClick={()=>logout()}>Logout</a></small>
                                         }
                                         
                                    
