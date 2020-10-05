@@ -5,9 +5,11 @@ import {setnav} from './setnav.js'
 import {Row,Col,Card,Table,Button} from 'react-bootstrap'
 import {useDispatch,useSelector} from 'react-redux'
 import { imgUrl } from '../../config'
-import {updateqty,paypalCreatePayment} from '../../actions/cart'
+import {updateqty,paypalCreatePayment,removeItemCart} from '../../actions/cart'
 import {getInfo as getUserInfo} from '../../actions/user'
 import PaypalButton  from "./paypal";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import  * as FA from '@fortawesome/free-solid-svg-icons'
 
 
 const CartComponent = (props) =>{
@@ -17,6 +19,12 @@ const CartComponent = (props) =>{
     const userinfo = useSelector(state=>state.user.userinfo)
     const [deliverycharge,setDeliverycharge] = useState(100)
     const [totalamount,setTotalamount] = useState(0)
+
+    const removeItem = (index)=>{
+        if(window.confirm("Remove this item?")){
+            dispatch(removeItemCart(index))
+        }
+    }
 
     useEffect(()=>{
         calculateAmount()
@@ -63,7 +71,7 @@ const CartComponent = (props) =>{
                                         <td><input onChange={(e)=>dispatch(updateqty({index: index,pcs: e.target.value}))} type="number" value={item.quantity}/></td>
                                         <td>P { item.product.price }</td>
                                         <td>P { (item.quantity * item.product.price) }</td>
-                                        <td></td>
+                                        <td><Button onClick={()=>removeItem(index)} variant="danger"><FontAwesomeIcon icon={FA.faTimes}></FontAwesomeIcon></Button></td>
                                     </tr>
                                     </>
                                })
@@ -74,19 +82,16 @@ const CartComponent = (props) =>{
             </Card>
 
             <br/>
-            <div>
+            <div style={{marginBottom: '100px'}}>
                 <span className="cartdetails">AMOUNT : P {totalamount}<br/>DELIVERY CHARGE : P {deliverycharge}</span>
                 <br/>
                 <span className="cartdetails">TOTAL: P {totalamount+deliverycharge}</span>
                 <hr/>
-                <span className="cartdetails" style={{color: 'dimgray'}}>Proceed to Payment . . .</span>
-                <hr/>
+                <Button variant="outline-secondary" className="float-right" style={{fontWeight: 'bold'}}>CHECKOUT</Button>
+           
             </div>
 
-            <div style={{position: 'relative',margin: '10px'}}>
-                <PaypalButton userinfo={userinfo} totalamount={totalamount} deliverycharge={deliverycharge}/>
-                <button className="btn btn-default" style={{border: '1px solid black',display: 'inline-block',position: 'absolute',borderRadius: '50px',fontSize: '10pt', padding: '2px 50px'}}>Cash On Delivery</button>
-            </div>
+          
         </div>
     )
 }

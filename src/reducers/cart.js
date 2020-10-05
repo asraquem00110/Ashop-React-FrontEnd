@@ -14,6 +14,9 @@ const cartReducer = (state = initialState , action )=>{
         case Actions.CART_UPDATEQTY:
             state.items[action.payload.index] = action.payload.data[0]
             return {items: [...state.items]}
+        case Actions.CART_REMOVEITEM: 
+            state.items.splice(action.payload,1)
+            return {items: [...state.items]}
         case Actions.CART_ADDTOCART:
             if(state.items.length > 0){
                 let res = 0

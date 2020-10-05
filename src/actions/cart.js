@@ -1,6 +1,5 @@
 import axios from 'axios'
 import * as config from '../config'
-import productReducer from '../reducers/product'
 
 export const Actions = {
     CART_ADDTOWISH: 'CART_ADDTOWISH',
@@ -8,7 +7,22 @@ export const Actions = {
     CART_CREATEPAYMENT: 'CART_CREATEPAYMENT',
     CART_EXECUTEPAYMENT: 'CART_EXECUTEPAYMENT',
     CART_GETITEMS: 'CART_GETITEMS',
-    CART_UPDATEQTY: 'CART_UPDATEQTY'
+    CART_UPDATEQTY: 'CART_UPDATEQTY',
+    CART_REMOVEITEM: 'CART_REMOVEITEM',
+}
+
+export const removeItemCart = (index) => async (dispatch,getState) => {
+    let items = getState().cart.items
+    let id = items[index].id
+    try {
+        let res = await axios.delete(`${config.backendapi}removeCart/${id}`)
+        dispatch({
+            type: Actions.CART_REMOVEITEM,
+            payload: index
+        })
+    }catch(e){
+        console.log(e)
+    }
 }
 
 export const updateqty = ({index,pcs}) => async (dispatch, getState) =>{
