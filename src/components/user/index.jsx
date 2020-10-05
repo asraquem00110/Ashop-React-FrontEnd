@@ -1,10 +1,16 @@
-import React from 'react'
-
+import React , { useEffect }  from 'react'
+import './index.css'
+import UserNav from './nav'
+import {setnav} from './setnav.js'
 const UserComponent = (props) =>{
+
+    useEffect(()=>{
+        setnav(0)
+    },[])
 
     return (
         <div id="MainBody">
-            <h1>My Page</h1>
+            <UserNav />
         </div>
     )
 }

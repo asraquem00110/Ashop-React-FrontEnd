@@ -1,0 +1,24 @@
+ul#userpage {
+
+}
+
+ul#userpage li {
+
+}
+
+div.col {
+    text-align: center !important;
+}
+
+a.userpage {
+    text-decoration: none;
+    color:dimgray;
+}
+
+a.activenav {
+    color: #097EEB;
+}
+
+.cartdetails {
+    color: black;font-size: 12pt;font-weight: bold;background: white;
+}

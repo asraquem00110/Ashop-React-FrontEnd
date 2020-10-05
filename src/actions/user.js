@@ -4,6 +4,20 @@ import * as config from '../config'
 export const Actions = {
     SIGNIN_USER: 'SIGNIN_USER',
     SIGNOUT_USER: 'SIGNOUT_USER',
+    SET_USERINFO: 'SET_USERINFO'
+}
+
+export const getInfo = () => async (dispatch,getState) => {
+     try {
+        let res = await axios.get(`${config.backendapi}user`)     
+        let info = res.data
+        dispatch({
+            type: Actions.SET_USERINFO,
+            payload: info
+        })
+     }catch(e){
+         console.log(e)
+     }
 }
 
 export const sign_in = (user) => (dispatch,getState) => {

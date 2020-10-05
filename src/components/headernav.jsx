@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState , useEffect} from 'react'
 import { Container, Row, Col , Form ,InputGroup, FormControl} from 'react-bootstrap'
 import './headernav.css'
 import logo from '../logo.svg';
@@ -9,12 +9,13 @@ import {useSelector,useDispatch} from 'react-redux'
 import SignInModal from './sigin'
 import RegisterModal from './register'
 import {sign_out} from '../actions/user'
-
+import {cartItems} from '../actions/cart'
 
 const HeaderNav = (props)=>{
     console.log(props)
-
     const dispatch = useDispatch()
+    const user = useSelector(state=>state.user.loginfo)
+    const items = useSelector(state=>state.cart.items)
 
     const imgstyle = {
         height: '50px',
@@ -22,7 +23,10 @@ const HeaderNav = (props)=>{
         padding: 0,
     }
 
-    const user = useSelector(state=>state.user.loginfo)
+
+    useEffect(()=>{
+        dispatch(cartItems())
+    },[])  
 
     const [showSignin, setShowSignin] = useState(false)
     const [showRegister, setShowRegister] = useState(false)
@@ -34,7 +38,7 @@ const HeaderNav = (props)=>{
     }
 
     const showcartbadge = (user)=>{
-        if(user !== "guest") return <> <span style={{padding: '3px 8px',background: 'green',color: 'white', borderRadius: '50%', position: 'absolute', bottom: '-5px'}}>2</span> </>
+    if(user !== "guest") return <> <span style={{padding: '3px 8px',background: 'green',color: 'white', borderRadius: '50%', position: 'absolute', bottom: '-5px'}}>{items.length}</span> </>
         return
     }
 
