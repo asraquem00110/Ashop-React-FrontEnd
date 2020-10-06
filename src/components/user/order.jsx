@@ -1,20 +1,21 @@
-import React , { useEffect }  from 'react'
-import './index.css'
+import React from 'react'
+import { useEffect } from 'react'
 import UserNav from './nav'
 import {setnav} from './setnav.js'
-const UserComponent = (props) =>{
+
+const OrderRecordsComponent = ()=>{
 
     useEffect(()=>{
-        setnav(0)
+        setnav(1)
     },[])
 
     return (
         <div id="MainBody">
             <UserNav />
             <br/>
-            <h1>My Profile</h1>
+            <h1>My Records</h1>
         </div>
     )
 }
 
-export default UserComponent
+export default OrderRecordsComponent

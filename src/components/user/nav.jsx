@@ -15,13 +15,13 @@ const UserNav = ()=>{
                                     <Link className="userpage" to="/profile"><span><FontAwesomeIcon icon={FA.faUser}></FontAwesomeIcon> My Profile</span></Link>
                                 </Col>
                                 <Col>
-                                    <Link className="userpage" to="/profile"><span><FontAwesomeIcon icon={FA.faFile}></FontAwesomeIcon> Orders</span></Link>
+                                    <Link className="userpage" to="/orders"><span><FontAwesomeIcon icon={FA.faFile}></FontAwesomeIcon> Orders</span></Link>
                                 </Col>
                                 <Col>
                                     <Link className="userpage" to="/mycart"><span><FontAwesomeIcon icon={FA.faCartPlus}></FontAwesomeIcon> My Cart</span></Link>
                                 </Col>
                                 <Col>
-                                    <Link className="userpage" to="/profile"><span><FontAwesomeIcon icon={FA.faHeart}></FontAwesomeIcon> Wishlist</span></Link>
+                                    <Link className="userpage" to="/wishlist"><span><FontAwesomeIcon icon={FA.faHeart}></FontAwesomeIcon> Wishlist</span></Link>
                                 </Col>
                                 <Col>
                                     <Link className="userpage" to="/"><span><FontAwesomeIcon icon={FA.faShoppingBag}></FontAwesomeIcon> Shop</span></Link>

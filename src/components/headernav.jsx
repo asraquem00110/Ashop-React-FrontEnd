@@ -38,7 +38,7 @@ const HeaderNav = (props)=>{
     }
 
     const showcartbadge = (user)=>{
-    if(user !== "guest") return <> <span style={{padding: '3px 8px',background: 'green',color: 'white', borderRadius: '50%', position: 'absolute', bottom: '-5px'}}>{items.length}</span> </>
+    if(user !== "guest" && items.length > 0) return <> <span style={{padding: '3px 8px',background: 'green',color: 'white', borderRadius: '50%', position: 'absolute', bottom: '-5px'}}>{items.length}</span> </>
         return
     }
 

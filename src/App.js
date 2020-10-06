@@ -12,6 +12,8 @@ import HeaderNav from './components/headernav'
 import MainBody from './components/main/mainbody'
 import NotFoundComponent from './components/404'
 import CartComponent from './components/user/cart'
+import WishComponent from './components/user/wish'
+import OrderRecordsComponent from './components/user/order'
 import UserComponent from './components/user'
 import {useSelector} from 'react-redux'
 import {BrowserRouter as Router, Switch , Route} from 'react-router-dom'
@@ -52,6 +54,20 @@ const App = ()=> {
                       }}
               >
               </Route>
+              <Route path="/wishlist"
+                     render={(props)=>{
+                      authmiddleware(props)
+                      return <WishComponent {...props} />
+                  }}
+              ></Route>
+
+              <Route path="/orders"
+                     render={(props)=>{
+                      authmiddleware(props)
+                      return <OrderRecordsComponent {...props} />
+                  }}
+              ></Route>
+
               <Route path="*" component={NotFoundComponent}></Route>
 
           </Switch>
