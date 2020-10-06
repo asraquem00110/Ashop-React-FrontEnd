@@ -66,30 +66,46 @@ export const paypalCreatePayment = (data,actions,userinfo) => async (dispatch,ge
 export const codPayment = (userinfo) => async (dispatch,getState) =>{
     const items = getState().cart.items
     userinfo.items = items
-    console.log(userinfo)
-    alert("COD")
+    return new Promise(async (resolve,reject)=>{
+
+        try{
+            let res = await axios.post(`${config.backendapi}createOrderCOD`,userinfo)
+            dispatch({
+                type: Actions.CART_EXECUTEPAYMENT
+            })
+            window.$toastr.success('Order Created!', 'Cash On Delivery')
+            resolve({msg: 'Order Created'})
+        }catch(e){
+            reject(e)
+        }
+    })
 }
 
 export const paypalExecutePayment = (data,actions,userinfo) => async (dispatch,getState)=>{
-    const items = getState().cart.items
-    return actions.request.post(`${config.backendapi}execute-payment`, {
-        paymentID: data.paymentID,
-        payerID:   data.payerID
-    })
-    .then(async (paypalres)=>{
-        userinfo.paypalData = paypalres
-        userinfo.items = items
-
-        let result = await axios.post(`${config.backendapi}createOrderPay`,userinfo)
-        return result
-    })
-    .then(response=>{
-        dispatch({
-            type: Actions.CART_EXECUTEPAYMENT
+    return new Promise((resolve,reject)=>{
+        const items = getState().cart.items
+        return actions.request.post(`${config.backendapi}execute-payment`, {
+            paymentID: data.paymentID,
+            payerID:   data.payerID
         })
-        window.$toastr.success('Order Created!', 'Paypal Payment')
+        .then(async (paypalres)=>{
+            userinfo.paypalData = paypalres
+            userinfo.items = items
+    
+            let result = await axios.post(`${config.backendapi}createOrderPay`,userinfo)
+            return result
+        })
+        .then(response=>{
+            dispatch({
+                type: Actions.CART_EXECUTEPAYMENT
+            })
+            window.$toastr.success('Order Created!', 'Paypal Payment')
+            resolve({msg: 'Order Created'})
+        })
+        .catch(err=>reject(err))
+    
+    
     })
-    .catch(err=>console.log(err))
 }
 
 export const addToWish = (product)=> async (dispatch,getState) =>{

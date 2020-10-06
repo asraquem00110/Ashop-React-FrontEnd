@@ -30,6 +30,10 @@ const PaypalButton = (props)=>{
                 },
                 onAuthorize: async function(data, actions) {
                     return dispatch(paypalExecutePayment(data,actions,props.userinfo))
+                    .then((res)=>{
+                        props.closemodal()
+                    })
+                    .catch(err=>console.log(err))
                 }
               }, paypalref.current);
         }

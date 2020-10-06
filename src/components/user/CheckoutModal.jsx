@@ -21,6 +21,10 @@ const CheckoutModal = ({show,closemodal,userinfo,totalamount,deliverycharge})=>{
     const cod = ()=>{
         if(window.confirm("Proceed to Cash On Delivery?")){
            dispatch(codPayment(userinfo))
+            .then((res)=>{
+                handleClose()
+            })
+            .catch(err=>console.log(err))
         }
     }
  
@@ -70,7 +74,7 @@ const CheckoutModal = ({show,closemodal,userinfo,totalamount,deliverycharge})=>{
                 </Modal.Body>
                 <Modal.Footer style={{position:'relative'}}>
                 <div className="mr-auto">
-                    <PaypalBtn userinfo={userinfo}/>
+                    <PaypalBtn userinfo={userinfo} closemodal={handleClose}/>
                 </div>
                 <Button onClick={()=>cod()} style={{position: 'absolute', top: '10px',borderRadius: '50px', padding: '5px 80px'}} variant="outline-dark">
                     Cash On Delivery
