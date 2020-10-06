@@ -7,9 +7,9 @@ import {useDispatch,useSelector} from 'react-redux'
 import { imgUrl } from '../../config'
 import {updateqty,paypalCreatePayment,removeItemCart} from '../../actions/cart'
 import {getInfo as getUserInfo} from '../../actions/user'
-import PaypalButton  from "./paypal";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import  * as FA from '@fortawesome/free-solid-svg-icons'
+import CheckoutModal from './CheckoutModal'
 
 
 const CartComponent = (props) =>{
@@ -17,8 +17,9 @@ const CartComponent = (props) =>{
     const dispatch = useDispatch()
     const items = useSelector(state=>state.cart.items)
     const userinfo = useSelector(state=>state.user.userinfo)
-    const [deliverycharge,setDeliverycharge] = useState(100)
+    const [deliverycharge,setDeliverycharge] = useState(50)
     const [totalamount,setTotalamount] = useState(0)
+    const [showcheckout,setShowcheckout] = useState(false)
 
     const removeItem = (index)=>{
         if(window.confirm("Remove this item?")){
@@ -87,9 +88,11 @@ const CartComponent = (props) =>{
                 <br/>
                 <span className="cartdetails">TOTAL: P {totalamount+deliverycharge}</span>
                 <hr/>
-                <Button variant="outline-secondary" className="float-right" style={{fontWeight: 'bold'}}>CHECKOUT</Button>
+                <Button onClick={()=>setShowcheckout(true)} variant="outline-secondary" className="float-right" style={{fontWeight: 'bold'}}>CHECKOUT</Button>
            
             </div>
+
+            <CheckoutModal userinfo={userinfo} totalamount={totalamount} deliverycharge={deliverycharge} show={showcheckout} closemodal={(status)=>setShowcheckout(status)}/>
 
           
         </div>

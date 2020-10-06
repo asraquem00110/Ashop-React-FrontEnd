@@ -44,6 +44,7 @@ const Product = ()=>{
                                             
                                              <p style={{fontWeight: 'bold',color: 'dimgray', margin: '2px 0px'}}>{product.product}</p>
                                             <span style={{fontWeight: 'normal',fontSize: '10pt'}}>{product.description}</span>
+                                            <p style={{color: '#3D4792'}}>P {window.$helper.roundToDecimal(product.price,2)}</p>
                                             
                                             <div style={{marginTop: '15px'}}>
                                                  <Button onClick={()=>dispatch(addToWish(product))} style={{marginRight: '10px', background: '#EFEFEF', color: '#000000', border: 'none'}}><FontAwesomeIcon icon={FA.faHeart}></FontAwesomeIcon></Button>

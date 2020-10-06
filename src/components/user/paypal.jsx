@@ -1,10 +1,13 @@
 import React, {useEffect,useState,useRef} from 'react'
-import {useSelector} from 'react-redux'
+import {useSelector,useDispatch} from 'react-redux'
+import {paypalCreatePayment,paypalExecutePayment} from '../../actions/cart'
 
 const PaypalButton = (props)=>{
 
     const paypalref = useRef()
     const [renderBtn , setRenderBtn] = useState(true)
+
+    const dispatch = useDispatch()
 
     useEffect(()=>{
 
@@ -12,7 +15,7 @@ const PaypalButton = (props)=>{
             window.paypal.Button.render({
                 env: 'sandbox', // Or 'production'
                 style: {
-                  size: 'small',
+                  size: 'medium',
                   color: 'white',
                   shape: 'pill',
                 },
@@ -23,27 +26,10 @@ const PaypalButton = (props)=>{
                     // ...
                 },
                 payment: function(data, actions) {  
-                    let paymentData = props.userinfo
-                    paymentData.computeTotal = props.totalamount
-                    paymentData.deliverycharge = props.deliverycharge
-
-                    console.log(paymentData)
-                
-                //   return actions.request.post('/api/create-payment', {})
-                //     .then(function(res) {
-                //         return res.id;
-                //     });
-                return
+                    return dispatch(paypalCreatePayment(data,actions,props.userinfo))
                 },
                 onAuthorize: async function(data, actions) {
-                  return actions.request.post('/api/execute-payment', {
-                    paymentID: data.paymentID,
-                    payerID:   data.payerID
-                  })
-                    .then(function(paypalres) {
-    
-               
-                    });
+                    return dispatch(paypalExecutePayment(data,actions,props.userinfo))
                 }
               }, paypalref.current);
         }

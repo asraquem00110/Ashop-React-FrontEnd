@@ -9,6 +9,9 @@ import allReducers from './reducers'
 import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
 import {composeWithDevTools} from 'redux-devtools-extension'
+import {roundToDecimal} from './helper/helper'
+import toastr from 'toastr'
+
 
 const initalState = {
 
@@ -18,6 +21,10 @@ const store = createStore(
   allReducers,
   initalState, composeWithDevTools(applyMiddleware(...middleware)
 ))
+
+
+window.$helper = {roundToDecimal}
+window.$toastr = toastr
 
 ReactDOM.render(
   <React.StrictMode>

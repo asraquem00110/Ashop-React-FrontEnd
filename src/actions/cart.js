@@ -9,6 +9,7 @@ export const Actions = {
     CART_GETITEMS: 'CART_GETITEMS',
     CART_UPDATEQTY: 'CART_UPDATEQTY',
     CART_REMOVEITEM: 'CART_REMOVEITEM',
+    CART_CODPAYMENT: 'CART_CODPAYMENT'
 }
 
 export const removeItemCart = (index) => async (dispatch,getState) => {
@@ -56,11 +57,39 @@ export const cartItems = () => async (dispatch, getState) =>{
 }
 
 export const paypalCreatePayment = (data,actions,userinfo) => async (dispatch,getState) =>{
+        return actions.request.post(`${config.backendapi}create-payment`, userinfo)
+            .then(function(res) {
+                return res.id;
+            });
+}
 
+export const codPayment = (userinfo) => async (dispatch,getState) =>{
+    const items = getState().cart.items
+    userinfo.items = items
+    console.log(userinfo)
+    alert("COD")
 }
 
 export const paypalExecutePayment = (data,actions,userinfo) => async (dispatch,getState)=>{
+    const items = getState().cart.items
+    return actions.request.post(`${config.backendapi}execute-payment`, {
+        paymentID: data.paymentID,
+        payerID:   data.payerID
+    })
+    .then(async (paypalres)=>{
+        userinfo.paypalData = paypalres
+        userinfo.items = items
 
+        let result = await axios.post(`${config.backendapi}createOrderPay`,userinfo)
+        return result
+    })
+    .then(response=>{
+        dispatch({
+            type: Actions.CART_EXECUTEPAYMENT
+        })
+        window.$toastr.success('Order Created!', 'Paypal Payment')
+    })
+    .catch(err=>console.log(err))
 }
 
 export const addToWish = (product)=> async (dispatch,getState) =>{
@@ -69,9 +98,10 @@ export const addToWish = (product)=> async (dispatch,getState) =>{
         axios.post(`${config.backendapi}addtowishlist`,product)
             .then((res)=>{
                 // console.log(res.response)
+                window.$toastr.success('Successfully added to wishlist!', 'Simple Online Shop')
             })
             .catch((err)=>{
-                if(err.response.status === 401) alert("You must Login First")
+                if(err.response.status === 401) window.$toastr.error('You must login first!', 'Simple Online Shop')
             })
     }catch(e){
         console.log(e)
@@ -84,13 +114,14 @@ export const addToCart = (product)=> (dispatch,getState) => {
     axios.post(`${config.backendapi}addtocart`,product)
         .then((res)=>{
             // console.log(res.response)
+            window.$toastr.success('Successfully added to cart!', 'Simple Online Shop')
             dispatch({
                 type: Actions.CART_ADDTOCART,
                 payload: res.data.cartdetails
             })
         })
         .catch((err)=>{
-            if(err.response.status === 401) alert("You must Login First")
+            if(err.response.status === 401) window.$toastr.error('You must login first!', 'Simple Online Shop')
         })
     
 }
