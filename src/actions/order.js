@@ -6,7 +6,27 @@ export const Actions = {
 }
 
 export const getPaginatedData = (url) => async (dispatch,getState)=>{
-    alert(url)
+    try {
+        let data = await axios.get(url)
+        dispatch({
+            type: Actions.ORDER_GETLIST,
+            payload: data.data
+        })
+    }catch(e){
+        console.log(e)
+    }
+}
+
+export const getBySearch = (search) => async (dispatch,getState) =>{
+    try {
+        let res = await axios.get(`${config.backendapi}orderSearch/${search}`)
+        dispatch({
+            type: Actions.ORDER_GETLIST,
+            payload: res.data
+        })
+    }catch(e){
+        console.log(e)
+    }
 }
 
 export const getOrders = () => async (dispatch,getState)=>{

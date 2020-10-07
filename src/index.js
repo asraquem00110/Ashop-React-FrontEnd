@@ -9,7 +9,7 @@ import allReducers from './reducers'
 import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
 import {composeWithDevTools} from 'redux-devtools-extension'
-import {roundToDecimal} from './helper/helper'
+import {roundToDecimal,formatBdayDate} from './helper/helper'
 import toastr from 'toastr'
 
 
@@ -23,7 +23,7 @@ const store = createStore(
 ))
 
 
-window.$helper = {roundToDecimal}
+window.$helper = {roundToDecimal,formatBdayDate}
 window.$toastr = toastr
 
 ReactDOM.render(

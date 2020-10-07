@@ -10,3 +10,11 @@ export const roundToDecimal = (num,decimalplace)=> {
     return test ? numberWithCommas(dec) : `${numberWithCommas(dec)}.00`
 
 }
+
+const MonthArray = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
+
+export const formatBdayDate = (Bday)=>{
+    if(Bday == null) return ""
+    var Bdate = new Date(Bday)
+    return `${MonthArray[Bdate.getMonth()]} ${Bdate.getDate()}, ${Bdate.getFullYear()}`
+} 

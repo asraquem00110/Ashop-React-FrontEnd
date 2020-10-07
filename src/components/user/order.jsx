@@ -3,10 +3,11 @@ import UserNav from './nav'
 import {setnav} from './setnav.js'
 import {Row,Col, Form , Table , Button } from 'react-bootstrap'
 import { useState } from 'react'
-import {getOrders,getPaginatedData} from '../../actions/order'
+import {getOrders,getPaginatedData,getBySearch} from '../../actions/order'
 import {useSelector,useDispatch} from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import  * as FA from '@fortawesome/free-solid-svg-icons'
+import OrderDetails from './orderDetails'
 
 
 const OrderRecordsComponent = ()=>{
@@ -14,23 +15,58 @@ const OrderRecordsComponent = ()=>{
     const order = useSelector(state=>state.order)
 
     const [showRecord,setShowRecord] = useState(false)
+    const [activeRecord,setActiveRecord] = useState({})
+    const [search,setSearch] = useState("")
+    const [typingTimer,setTypingTimer] = useState(null)
 
     useEffect(()=>{
-        setnav(1)
+        setnav(1)  
         dispatch(getOrders())
     },[])
+
+    useEffect(()=>{
+        clearTimeout(typingTimer)
+        if(search.length > 0){
+            setTypingTimer(setTimeout(()=>{
+               dispatch(getBySearch(search))
+            },100)
+            )
+        }else{
+            dispatch(getOrders())
+        }
+    },[search])
+
+
+    const viewRecord = (order) => {
+        setShowRecord(true)
+        setActiveRecord(order)
+    }
+
+    const checkstatus = (status) => {
+        let statuscomment = ""
+        if(status === 0){
+            statuscomment = 'Pending'
+        }else if(status === 1){
+            statuscomment = 'For Delivery'
+        }else{
+            statuscomment = 'Delivered'
+        }
+        return statuscomment
+    }
 
     return (
         <div id="MainBody">
             <UserNav />
             <br/>
-            <h1>My Records</h1>
+           
             {
                 !showRecord 
-                ?  <div>
+                ?  
+                <div>
+                     <h1>My Records</h1>
                         <Row>
                             <Col md={6}>
-                                <Form.Control type="text" placeholder="Search Via Order Number ..."/>
+                                <Form.Control value={search} onChange={(e)=>setSearch(e.target.value)} type="text" placeholder="Search Via Order Number ..."/>
                             </Col>
                         </Row>
                         <Table responsive bordered style={{marginTop: '10px'}}>
@@ -46,10 +82,14 @@ const OrderRecordsComponent = ()=>{
                                     {order.orders.data.map((o,i)=>{
                                         return <>
                                             <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
+                                                <td><button onClick={()=>viewRecord(o)} style={{color:'green',fontWeight:'bold'}} className="form-control">{ o.id}</button></td>
+                                                <td>{window.$helper.formatBdayDate(o.created_at)}</td>
+                                                <td>{o.payment}</td>
+                                                <td>
+                                                    {
+                                                        o.status === 0 ? <span style={{color: 'maroon'}}>{checkstatus(o.status)}</span> : <span style={{color: 'green'}}>{checkstatus(o.status)}</span>
+                                                    }
+                                                </td>
                                             </tr>
                                         </>
                                     })}
@@ -66,7 +106,7 @@ const OrderRecordsComponent = ()=>{
                     </Button>
 
                     </div>
-                 : ''
+                 : <OrderDetails order={{activeRecord}} close={()=>setShowRecord(false)}/>
             }
 
  

@@ -25,7 +25,7 @@ const Category = (props)=>{
         if(search.length > 0){
             setTypingTimer(setTimeout(()=>{
                dispatch(getBySearch(search))
-            },500)
+            },100)
             )
         }else{
             dispatch(getProducts())
