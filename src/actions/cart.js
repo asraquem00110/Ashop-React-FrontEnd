@@ -3,6 +3,8 @@ import * as config from '../config'
 
 export const Actions = {
     CART_ADDTOWISH: 'CART_ADDTOWISH',
+    CART_GETWISH: 'CART_GETWISH',
+    CART_REMOVEWISH: 'CART_REMOVEWISH',
     CART_ADDTOCART: 'CART_ADDTOCART',
     CART_CREATEPAYMENT: 'CART_CREATEPAYMENT',
     CART_EXECUTEPAYMENT: 'CART_EXECUTEPAYMENT',
@@ -108,12 +110,37 @@ export const paypalExecutePayment = (data,actions,userinfo) => async (dispatch,g
     })
 }
 
+export const getWish = () => async (dispatch,getState) => {
+    try {
+        let res = await axios.get(`${config.backendapi}getwishlist`)
+        let data = res.data.list
+        dispatch({
+            type: Actions.CART_GETWISH,
+            payload: data,
+        })
+    }catch(e){
+        console.log(e)
+    }
+}
+
+export const removeWish = (index,id) => async (dispatch,getState)=>{
+    try {
+        let res = await axios.delete(`${config.backendapi}removewishlist/${id}`)
+        dispatch({
+            type: Actions.CART_REMOVEWISH,
+            payload: index,
+        })
+    }catch(e){
+        console.log(e)
+    }
+}
+
 export const addToWish = (product)=> async (dispatch,getState) =>{
     try {
         // axios.post(`API_REQUEST`,{type: 'POST' ,url: 'addtowishlist', data: null})
         axios.post(`${config.backendapi}addtowishlist`,product)
             .then((res)=>{
-                // console.log(res.response)
+                console.log(res)
                 window.$toastr.success('Successfully added to wishlist!', 'Simple Online Shop')
             })
             .catch((err)=>{

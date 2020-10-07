@@ -48,6 +48,7 @@ const CartComponent = (props) =>{
         <div id="MainBody">
             <UserNav />
             <br/>
+            <h1>My Cart</h1>
             <Card>
                   {/* <Card.Header>&nbsp;</Card.Header> */}
                   <Card.Body>
@@ -88,8 +89,10 @@ const CartComponent = (props) =>{
                 <br/>
                 <span className="cartdetails">TOTAL: P {totalamount+deliverycharge}</span>
                 <hr/>
-                <Button onClick={()=>setShowcheckout(true)} variant="outline-secondary" className="float-right" style={{fontWeight: 'bold'}}>CHECKOUT</Button>
-           
+                {
+                    items.length > 0 ?  <Button onClick={()=>setShowcheckout(true)} variant="outline-secondary" className="float-right" style={{fontWeight: 'bold'}}>CHECKOUT</Button> : ''
+                }
+               
             </div>
 
             <CheckoutModal userinfo={userinfo} totalamount={totalamount} deliverycharge={deliverycharge} show={showcheckout} closemodal={(status)=>setShowcheckout(status)}/>
