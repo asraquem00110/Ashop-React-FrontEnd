@@ -19,6 +19,7 @@ import {useSelector} from 'react-redux'
 import {BrowserRouter as Router, Switch , Route} from 'react-router-dom'
 import axios from 'axios'
 import {authmiddleware} from './helper/authmiddleware'
+import myLogo from './assets/mylogo.png'
 
 const App = ()=> {
 
@@ -30,6 +31,7 @@ const App = ()=> {
   return (
     <Router>
       <div className="App">
+        <div id="content-wrap">
           <HeaderNav/>
           <Switch>
               {/* <Route path="/" exact component={MainBody}></Route> */}
@@ -71,7 +73,10 @@ const App = ()=> {
               <Route path="*" component={NotFoundComponent}></Route>
 
           </Switch>
-        
+          <footer>
+                <img style={{position: 'absolute', height: '4.5rem', width: '150px'}} src={myLogo} alt="mylogo"/>
+          </footer>
+          </div>
       </div>
     </Router>
   );

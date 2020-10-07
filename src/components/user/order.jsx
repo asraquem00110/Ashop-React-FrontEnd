@@ -15,7 +15,7 @@ const OrderRecordsComponent = ()=>{
     const order = useSelector(state=>state.order)
 
     const [showRecord,setShowRecord] = useState(false)
-    const [activeRecord,setActiveRecord] = useState({})
+    const [activeRecord,setActiveRecord] = useState(null)
     const [search,setSearch] = useState("")
     const [typingTimer,setTypingTimer] = useState(null)
 
@@ -106,7 +106,7 @@ const OrderRecordsComponent = ()=>{
                     </Button>
 
                     </div>
-                 : <OrderDetails order={{activeRecord}} close={()=>setShowRecord(false)}/>
+                 : <OrderDetails order={activeRecord} close={()=>setShowRecord(false)} checkstatus={(status)=>checkstatus(status)}/>
             }
 
  
