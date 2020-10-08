@@ -1,2 +1,2 @@
-export const backendapi = "http://localhost:8000/api/"
-export const imgUrl = "http://localhost:8000/upload/"
+export const backendapi = "http://ashopping.herokuapp.com/api/"
+export const imgUrl = "http://ashopping.herokuapp.com/upload/"
