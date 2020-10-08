@@ -87,7 +87,7 @@ app.post('/API_LOGOUT',  csrfProtection , (req,res,next)=>{
 app.post('/API_REQUEST' , csrfProtection,  (req,res,next)=>{
     const { type , url , data } = req.body
 
-   // axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
+    axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
     axios.defaults.headers.common["Accept"] = 'application/json'
     axios.defaults.headers.common["Authorization"] = `Bearer ${req.session.token}`
 
