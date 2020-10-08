@@ -12,14 +12,12 @@ import {composeWithDevTools} from 'redux-devtools-extension'
 import {roundToDecimal,formatBdayDate} from './helper/helper'
 import toastr from 'toastr'
 
+let initialState = {}
 
-const initalState = {
-
-}
 const middleware = [thunk]
 const store = createStore(
   allReducers,
-  initalState, composeWithDevTools(applyMiddleware(...middleware)
+  initialState, composeWithDevTools(applyMiddleware(...middleware)
 ))
 
 

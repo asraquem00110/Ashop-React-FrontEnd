@@ -2,7 +2,6 @@
 import {Actions} from '../actions/user'
 const initialState = {
     loginfo: localStorage.getItem("loguser") || 'guest',
-    token: localStorage.getItem('token') || '',
     userinfo: {}
 }
 const userReducer = (state = initialState , action)=>{
@@ -10,13 +9,11 @@ const userReducer = (state = initialState , action)=>{
         case Actions.SIGNIN_USER:
             return {
                 loginfo: localStorage.getItem("loguser"),
-                token: localStorage.getItem("token"),
                 userinfo: state.userinfo
             }
         case Actions.SIGNOUT_USER: 
             return {
                 loginfo: 'guest',
-                token: '',
                 userinfo: state.userinfo
             }
         case Actions.SET_USERINFO:

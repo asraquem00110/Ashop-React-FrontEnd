@@ -1,12 +1,8 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useEffect } from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './assets/scss/app.scss'
 
-import { Button } from 'react-bootstrap';
-
-// import * as RB from 'react-bootstrap';
 
 import HeaderNav from './components/headernav'
 import MainBody from './components/main/mainbody'
@@ -15,19 +11,12 @@ import CartComponent from './components/user/cart'
 import WishComponent from './components/user/wish'
 import OrderRecordsComponent from './components/user/order'
 import UserComponent from './components/user'
-import {useSelector} from 'react-redux'
 import {BrowserRouter as Router, Switch , Route} from 'react-router-dom'
-import axios from 'axios'
 import {authmiddleware} from './helper/authmiddleware'
 import myLogo from './assets/mylogo.png'
 
 const App = ()=> {
 
-  const temptoken = useSelector(state=>state.user.token)
-  axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
-  axios.defaults.headers.common["Accept"] = 'application/json'
-  axios.defaults.headers.common["Authorization"] = `Bearer ${temptoken}`
- 
   return (
     <Router>
       <div className="App">

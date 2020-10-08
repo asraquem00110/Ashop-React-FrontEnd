@@ -17,7 +17,7 @@ const Category = (props)=>{
     const [search ,setSearch ] = useState("")
 
     useEffect(()=>{
-        dispatch(getCategories())
+        // dispatch(getCategories())
     },[])
 
     useEffect(()=>{

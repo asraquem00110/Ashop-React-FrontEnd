@@ -1,5 +1,6 @@
 import axios from 'axios'
 import * as config from '../config'
+import {RedirectIfUnauthenticated} from './redirect'
 
 export const Actions = {
     CART_ADDTOWISH: 'CART_ADDTOWISH',
@@ -18,13 +19,14 @@ export const removeItemCart = (index) => async (dispatch,getState) => {
     let items = getState().cart.items
     let id = items[index].id
     try {
-        let res = await axios.delete(`${config.backendapi}removeCart/${id}`)
+        let res = await axios.post(`API_REQUEST`,{type: 'DELETE' ,url: `removeCart/${id}`, data: null})
         dispatch({
             type: Actions.CART_REMOVEITEM,
             payload: index
         })
     }catch(e){
         console.log(e)
+        RedirectIfUnauthenticated(e)
     }
 }
 
@@ -32,7 +34,7 @@ export const updateqty = ({index,pcs}) => async (dispatch, getState) =>{
     try {
         let state = getState()
         let product = state.cart.items[index]
-        let res = await axios.patch(`${config.backendapi}updateCart`,{product: product, quantity: pcs})
+        let res = await axios.post(`API_REQUEST`,{type: 'PATCH' ,url: `updateCart`, data: {product: product, quantity: pcs}})
         dispatch({
             type: Actions.CART_UPDATEQTY,
             payload: {
@@ -42,12 +44,13 @@ export const updateqty = ({index,pcs}) => async (dispatch, getState) =>{
         })
     }catch(e){
         console.log(e)
+        RedirectIfUnauthenticated(e)
     }
 }
 
 export const cartItems = () => async (dispatch, getState) =>{
     try {
-        let data = await axios.post(`${config.backendapi}getCart`)
+        let data = await axios.post(`API_REQUEST`,{type: 'POST' ,url: `getCart`, data: null})
         let items = data.data.cart
         dispatch({
             type: Actions.CART_GETITEMS,
@@ -55,14 +58,15 @@ export const cartItems = () => async (dispatch, getState) =>{
         })
     }catch(e){
         console.log(e)
+        RedirectIfUnauthenticated(e)
     }
 }
 
 export const paypalCreatePayment = (data,actions,userinfo) => async (dispatch,getState) =>{
-        return actions.request.post(`${config.backendapi}create-payment`, userinfo)
-            .then(function(res) {
-                return res.id;
-            });
+    return actions.request.post(`${config.backendapi}create-payment`, userinfo)
+        .then(function(res) {
+            return res.id;
+        });
 }
 
 export const codPayment = (userinfo) => async (dispatch,getState) =>{
@@ -71,13 +75,14 @@ export const codPayment = (userinfo) => async (dispatch,getState) =>{
     return new Promise(async (resolve,reject)=>{
 
         try{
-            let res = await axios.post(`${config.backendapi}createOrderCOD`,userinfo)
+            let res = await axios.post(`API_REQUEST`,{type: 'POST' ,url: `createOrderCOD`, data: userinfo})
             dispatch({
                 type: Actions.CART_EXECUTEPAYMENT
             })
             window.$toastr.success('Order Created!', 'Cash On Delivery')
             resolve({msg: 'Order Created'})
         }catch(e){
+            RedirectIfUnauthenticated(e)
             reject(e)
         }
     })
@@ -93,8 +98,7 @@ export const paypalExecutePayment = (data,actions,userinfo) => async (dispatch,g
         .then(async (paypalres)=>{
             userinfo.paypalData = paypalres
             userinfo.items = items
-    
-            let result = await axios.post(`${config.backendapi}createOrderPay`,userinfo)
+            let result = await axios.post(`API_REQUEST`,{type: 'POST' ,url: `createOrderPay`, data: userinfo})
             return result
         })
         .then(response=>{
@@ -104,7 +108,10 @@ export const paypalExecutePayment = (data,actions,userinfo) => async (dispatch,g
             window.$toastr.success('Order Created!', 'Paypal Payment')
             resolve({msg: 'Order Created'})
         })
-        .catch(err=>reject(err))
+        .catch(err=>{
+            RedirectIfUnauthenticated(err)
+            reject(err)
+        })
     
     
     })
@@ -112,7 +119,7 @@ export const paypalExecutePayment = (data,actions,userinfo) => async (dispatch,g
 
 export const getWish = () => async (dispatch,getState) => {
     try {
-        let res = await axios.get(`${config.backendapi}getwishlist`)
+        let res = await axios.post(`API_REQUEST`,{type: 'GET' ,url: `getwishlist`, data: null})
         let data = res.data.list
         dispatch({
             type: Actions.CART_GETWISH,
@@ -120,27 +127,27 @@ export const getWish = () => async (dispatch,getState) => {
         })
     }catch(e){
         console.log(e)
+        RedirectIfUnauthenticated(e)
     }
 }
 
 export const removeWish = (index,id) => async (dispatch,getState)=>{
     try {
-        let res = await axios.delete(`${config.backendapi}removewishlist/${id}`)
+        let res = await axios.post(`API_REQUEST`,{type: 'DELETE' ,url: `removewishlist/${id}`, data: null})
         dispatch({
             type: Actions.CART_REMOVEWISH,
             payload: index,
         })
     }catch(e){
         console.log(e)
+        RedirectIfUnauthenticated(e)
     }
 }
 
 export const addToWish = (product)=> async (dispatch,getState) =>{
     try {
-        // axios.post(`API_REQUEST`,{type: 'POST' ,url: 'addtowishlist', data: null})
-        axios.post(`${config.backendapi}addtowishlist`,product)
+        axios.post(`API_REQUEST`,{type: 'POST' ,url: 'addtowishlist', data: product})
             .then((res)=>{
-                console.log(res)
                 window.$toastr.success('Successfully added to wishlist!', 'Simple Online Shop')
             })
             .catch((err)=>{
@@ -148,15 +155,14 @@ export const addToWish = (product)=> async (dispatch,getState) =>{
             })
     }catch(e){
         console.log(e)
+        RedirectIfUnauthenticated(e)
     }
 }
 
 export const addToCart = (product)=> (dispatch,getState) => {
         
-    // axios.post(`API_REQUEST`,{type: 'POST' ,url: 'addtocart', data: product})
-    axios.post(`${config.backendapi}addtocart`,product)
+    axios.post(`API_REQUEST`,{type: 'POST' ,url: 'addtocart', data: product})
         .then((res)=>{
-            // console.log(res.response)
             window.$toastr.success('Successfully added to cart!', 'Simple Online Shop')
             dispatch({
                 type: Actions.CART_ADDTOCART,

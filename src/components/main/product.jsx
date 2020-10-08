@@ -28,7 +28,7 @@ const Product = ()=>{
     }
 
     useEffect(()=>{
-       dispatch(getProducts())
+    //    dispatch(getProducts())
     },[])
 
     return(

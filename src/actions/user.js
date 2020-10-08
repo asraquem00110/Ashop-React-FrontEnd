@@ -1,5 +1,5 @@
 import axios from 'axios'
-import * as config from '../config'
+import {RedirectIfUnauthenticated} from './redirect'
 
 export const Actions = {
     SIGNIN_USER: 'SIGNIN_USER',
@@ -9,7 +9,7 @@ export const Actions = {
 
 export const getInfo = () => async (dispatch,getState) => {
      try {
-        let res = await axios.get(`${config.backendapi}user`)     
+        let res = await axios.post(`API_REQUEST`,{type: 'GET' ,url: `user`, data: null})
         let info = res.data
         dispatch({
             type: Actions.SET_USERINFO,
@@ -17,23 +17,20 @@ export const getInfo = () => async (dispatch,getState) => {
         })
      }catch(e){
          console.log(e)
+         RedirectIfUnauthenticated(e)
      }
 }
 
 export const sign_in = (user) => (dispatch,getState) => {
     return new Promise(async(resolve,reject)=>{
         try {
-            let res = await axios.post(`${config.backendapi}login`,user)     
+            let res = await axios.post(`API_SIGN`,{type: 'POST' ,url: `login`, data: user})   
             if(!res.data.errors && !res.data.message){
-                const token = res.data.access_token
                 const userinfo = res.data.user
-                
                 localStorage.setItem("loguser",userinfo.name)
-                localStorage.setItem("token",token)
-
                    dispatch({
                         type: Actions.SIGNIN_USER,
-                        payload: {token: token, user: userinfo}
+                        payload: {user: userinfo}
                     })
                  }    
          
@@ -50,7 +47,7 @@ export const register = (user) => async (dispatch,getState)=>{
 
     return new Promise(async(resolve,reject)=>{
         try {
-            let res = await axios.post(`${config.backendapi}register`,user)  
+            let res = await axios.post(`API_REQUEST`,{type: 'POST' ,url: `register`, data: user})
             resolve(res)
         }catch(e){
             console.log(e)
@@ -60,18 +57,24 @@ export const register = (user) => async (dispatch,getState)=>{
 }
 
 export const sign_out = () => async (dispatch, getState) =>{
-    localStorage.removeItem('token')
-    localStorage.removeItem('loguser')
-
-    try {
-        await axios.post(`${config.backendapi}logout`)
-        dispatch({
-            type: Actions.SIGNOUT_USER,
-            payload: {}
-        })
-    }catch(e){
-        console.log(e)
-    }
+   
+    return new Promise(async (resolve,reject)=>{
+        try {
+            await axios.post(`API_LOGOUT`,{type: 'POST' ,url: `logout`, data: null})
+            localStorage.removeItem('loguser')
+            dispatch({
+                type: Actions.SIGNOUT_USER,
+                payload: {}
+            })
+            resolve()
+            
+        }catch(e){
+            console.log(e)
+            RedirectIfUnauthenticated(e)
+            reject(e)
+        }
+    
+    })
 
  
 }

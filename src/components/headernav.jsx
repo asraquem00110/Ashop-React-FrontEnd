@@ -25,7 +25,7 @@ const HeaderNav = (props)=>{
 
 
     useEffect(()=>{
-        dispatch(cartItems())
+        if(user!=='guest') dispatch(cartItems())
     },[])  
 
     const [showSignin, setShowSignin] = useState(false)
@@ -33,7 +33,7 @@ const HeaderNav = (props)=>{
 
     const logout = ()=>{
         if(window.confirm("Are you sure you want to logout?")){
-            dispatch(sign_out())
+            dispatch(sign_out()).then(()=>props.history.push('/'))
         }
     }
 
