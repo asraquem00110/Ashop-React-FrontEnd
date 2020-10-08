@@ -71,7 +71,7 @@ const HeaderNav = (props)=>{
                                 </span>
                                 </li>
                                 <li>
-                                <span style={{cursor: 'pointer'}} onClick={()=> user !== "guest" ? props.history.push("/profile") : props.history.push("/")} className="float-right text-primary linknav">
+                                <span style={{cursor: 'pointer'}} onClick={()=> user !== "guest" ? props.history.push({pathname: '/profile',state: {sampleParams: 'alvin raquem'}}) : props.history.push("/")} className="float-right text-primary linknav">
                                     <FontAwesomeIcon icon={FA.faUser} />
                                 </span>
                                 </li>
