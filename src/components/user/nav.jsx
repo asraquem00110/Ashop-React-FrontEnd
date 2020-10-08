@@ -12,7 +12,7 @@ const UserNav = ()=>{
                     <Card.Body>
                             <Row>
                                 <Col>
-                                    <Link className="userpage" to="/profile"><span><FontAwesomeIcon icon={FA.faUser}></FontAwesomeIcon> My Profile</span></Link>
+                                    <Link className="userpage" to={{pathname: '/profile',state: {sampleParams: 'alvin raquem'}}}><span><FontAwesomeIcon icon={FA.faUser}></FontAwesomeIcon> My Profile</span></Link>
                                 </Col>
                                 <Col>
                                     <Link className="userpage" to="/orders"><span><FontAwesomeIcon icon={FA.faFile}></FontAwesomeIcon> Orders</span></Link>
