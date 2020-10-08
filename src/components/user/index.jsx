@@ -9,7 +9,9 @@ import {getInfo as getUserInfo} from '../../actions/user'
 const UserComponent = (props) =>{
     const dispatch = useDispatch()
     const userinfo = useSelector(state=>state.user.userinfo)
-
+    
+    console.log(props)
+    
     useEffect(()=>{
         setnav(0)
         dispatch(getUserInfo())
