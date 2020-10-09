@@ -1,19 +1,19 @@
 import React, { useEffect } from 'react';
-import './App.css';
+import 'App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './assets/scss/app.scss'
+import 'assets/scss/app.scss'
 
-
-import HeaderNav from './components/headernav'
-import MainBody from './components/main/mainbody'
-import NotFoundComponent from './components/404'
-import CartComponent from './components/user/cart'
-import WishComponent from './components/user/wish'
-import OrderRecordsComponent from './components/user/order'
-import UserComponent from './components/user'
+// add jsconfig.json or add in tsconfig.json if using typescript template for absolute import
+import HeaderNav from 'components/headernav'
+import MainBody from 'components/main/mainbody'
+import NotFoundComponent from 'components/404'
+import CartComponent from 'components/user/cart'
+import WishComponent from 'components/user/wish'
+import OrderRecordsComponent from 'components/user/order'
+import UserComponent from 'components/user'
 import {BrowserRouter as Router, Switch , Route} from 'react-router-dom'
-import {authmiddleware} from './helper/authmiddleware'
-import myLogo from './assets/mylogo.png'
+import {authmiddleware} from 'helper/authmiddleware'
+import myLogo from 'assets/mylogo.png'
 
 const App = ()=> {
 
